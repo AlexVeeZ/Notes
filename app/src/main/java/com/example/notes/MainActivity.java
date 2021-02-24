@@ -2,12 +2,15 @@ package com.example.notes;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,10 +20,15 @@ public class MainActivity extends AppCompatActivity {
     private EditText currentNoteOne,currentNoteTwo,currentNoteThree;
     private ImageView save;
     private ImageView share;
+    private ImageView menu;
+    private LinearLayout home;
+    private DrawerLayout drawerLayout;
     /*поля , хранящие (по моей задумке) в себе содержимое заметок*/
     private StringBuilder buffer_note_one;
     private StringBuilder buffer_note_two;
     private StringBuilder buffer_note_three;
+
+    private final String ARG_INDEX = "arg_index";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     }
     /*Инициализация полей*/
     private void initView(){
+        drawerLayout = findViewById(R.id.drawer_layout);
         nameOfNoteOne = findViewById(R.id.nameOfFirstNote);
         nameOfNoteTwo = findViewById(R.id.nameOfSecondNote);
         nameOfNoteThree = findViewById(R.id.nameOfThirdNote);
@@ -39,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         currentNoteThree = findViewById(R.id.current_note_three);
         save = findViewById(R.id.save);
         share = findViewById(R.id.share);
+        menu = findViewById(R.id.menu);
+        home = findViewById(R.id.home_linearLayout);
 
     }
     /*Метод отображения действий*/
@@ -91,11 +102,25 @@ public class MainActivity extends AppCompatActivity {
         });
         share.setOnClickListener(v->{
             Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.putExtra(Intent.EXTRA_TEXT, String.valueOf(buffer_note_one));
+            intent.putExtra(Intent.EXTRA_TEXT, ARG_INDEX);
             intent.setType("text/plain");
             startActivity(Intent.createChooser(intent,null));
             startActivity(intent);
         });
+        menu.setOnClickListener(v->{
+            openDrawer(drawerLayout);
+        });
+        home.setOnClickListener(v->{
+            closeDrawer(drawerLayout);
+        });
+    }
+
+    private void openDrawer(DrawerLayout drawerLayout) {
+        drawerLayout.openDrawer(GravityCompat.START);
+    }
+
+    private void closeDrawer(DrawerLayout drawerLayout) {
+       drawerLayout.closeDrawer(GravityCompat.START);
     }
 
 
@@ -103,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(@NonNull Bundle instanceState){
         super.onSaveInstanceState(instanceState);
-        instanceState.putString(String.valueOf(buffer_note_one), String.valueOf(currentNoteOne.getText()));
+        instanceState.putString(ARG_INDEX, String.valueOf(currentNoteOne.getText()));
         instanceState.putString(String.valueOf(buffer_note_two), String.valueOf(currentNoteTwo.getText()));
         instanceState.putString(String.valueOf(buffer_note_three), String.valueOf(currentNoteThree.getText()));
 
@@ -112,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle instanceState){
         super.onRestoreInstanceState(instanceState);
-        currentNoteOne.setText(instanceState.getString(String.valueOf(buffer_note_one)));
+        currentNoteOne.setText(instanceState.getString(ARG_INDEX));
         currentNoteTwo.setText(instanceState.getString(String.valueOf(buffer_note_two)));
         currentNoteThree.setText(instanceState.getString(String.valueOf(buffer_note_three)));
 

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.drawerlayout.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
@@ -10,25 +11,24 @@
     android:background="@color/light_yellow">
 
 
-
-    <ScrollView
-        android:id="@+id/scroll"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:orientation="vertical"
+        android:id="@+id/top">
+
+        <include
+            layout="@layout/main_toolbar"/>
 
         <LinearLayout
             android:id="@+id/listOfNotes"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 android:text="@string/nameOfFirstNote"
                 android:id="@+id/nameOfFirstNote"
                 style="@style/NoteStyle"/>
@@ -36,8 +36,6 @@
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nameOfFirstNote"
                 android:text="@string/nameOfSecondNote"
                 android:id="@+id/nameOfSecondNote"
                 style="@style/NoteStyle"/>
@@ -45,47 +43,50 @@
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nameOfSecondNote"
                 android:text="@string/nameOfThirdNote"
                 android:id="@+id/nameOfThirdNote"
                 style="@style/NoteStyle"/>
 
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/functions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/green"
+            android:gravity="end">
 
-    </ScrollView>
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/save"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                app:srcCompat="@drawable/save" />
 
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/share"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                app:srcCompat="@drawable/ic_baseline_share_24"/>
 
-    <LinearLayout
-        android:id="@+id/functions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/scroll"
-        android:orientation="horizontal"
-        android:gravity="end"
-        android:background="@color/green">
+        </LinearLayout>
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/save"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            app:srcCompat="@drawable/save" />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/share"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            app:srcCompat="@drawable/ic_baseline_share_24"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/content_container"
+            android:background="@drawable/frame_layout_style"/>
 
     </LinearLayout>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/functions"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:id="@+id/content_container"/>
+    <RelativeLayout
+        android:layout_width="@dimen/width_navigation"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/green">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <include
+            layout="@layout/main_nav_drawer"/>
+
+    </RelativeLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>
