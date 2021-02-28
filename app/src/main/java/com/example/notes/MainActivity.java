@@ -4,9 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -34,15 +37,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initView();
-        addOnClickListener();
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        if(savedInstanceState == null){
+            initView();
+            addOnClickListener();
+
+            ListOfNotes listOfNotes = new ListOfNotes();
+            FragmentTransaction list = getSupportFragmentManager().beginTransaction();
+            list.replace(R.id.listOfNotes,listOfNotes);
+            list.commit();
+        }
+
     }
     /*Инициализация полей*/
     private void initView(){
         drawerLayout = findViewById(R.id.drawer_layout);
-        nameOfNoteOne = findViewById(R.id.nameOfFirstNote);
+        /*nameOfNoteOne = findViewById(R.id.nameOfFirstNote);
         nameOfNoteTwo = findViewById(R.id.nameOfSecondNote);
-        nameOfNoteThree = findViewById(R.id.nameOfThirdNote);
+        nameOfNoteThree = findViewById(R.id.nameOfThirdNote);*/
         currentNoteOne = findViewById(R.id.current_note_one);
         currentNoteTwo = findViewById(R.id.current_note_two);
         currentNoteThree = findViewById(R.id.current_note_three);
@@ -54,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     }
     /*Метод отображения действий*/
     private void addOnClickListener(){
-        nameOfNoteOne.setOnClickListener(v -> {
+        /*nameOfNoteOne.setOnClickListener(v -> {
             CurrentNoteOne note_one = new CurrentNoteOne();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.content_container,note_one);
@@ -87,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-        });
+        });*/
         save.setOnClickListener(v->{
             try{
                 buffer_note_one = new StringBuilder();
