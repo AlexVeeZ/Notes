@@ -34,12 +34,12 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
     @Override
     public NotesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_notes,parent,false);
-        return new NotesViewHolder(view);
+        return new NotesViewHolder(view, callback);
     }
 
     @Override
     public void onBindViewHolder(@NonNull NotesViewHolder holder, int position) {
-        holder.onBind(notes.get(position),position );
+        holder.onBind(notes.get(position), position);
     }
 
     @Override
@@ -50,11 +50,12 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
     class NotesViewHolder extends RecyclerView.ViewHolder{
 
         private final MaterialTextView textView;
+        private final NotesAdapterCallback callback;
 
-
-        public NotesViewHolder(@NonNull View itemView) {
+        public NotesViewHolder(@NonNull View itemView, NotesAdapterCallback callback) {
             super(itemView);
             textView = itemView.findViewById(R.id.tv_note_name);
+            this.callback = callback;
         }
 
         public void onBind(SimpleNote model, int position){
@@ -62,10 +63,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
             textView.setText(model.getTitle());
 
             itemView.setOnClickListener(v->{
-                if(getAdapterPosition() != RecyclerView.NO_POSITION){
-                    callback.onItemClicked(model);
-                }
-
+                callback.onItemClicked(getAdapterPosition());
             });
         }
     }

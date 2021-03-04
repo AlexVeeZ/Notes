@@ -3,14 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CurrentNoteOne">
+    tools:context=".CurrentNoteFragment"
+    android:orientation="vertical"
+    android:id="@+id/current_note">
 
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/title"
+        style="@style/NoteStyle"
+        android:inputType="textNoSuggestions" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         style="@style/CurrentNoteStyle"
-        android:id="@+id/current_note_one"
+        android:id="@+id/description"
         android:inputType="textNoSuggestions" />
 
 

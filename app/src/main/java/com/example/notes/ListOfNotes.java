@@ -21,6 +21,7 @@ import java.util.List;
 public  class ListOfNotes extends Fragment implements NotesAdapterCallback{
 
     private final List<SimpleNote> notes = new ArrayList<>();
+    private RecyclerView recyclerView;
     private final NotesAdapter notesAdapter = new NotesAdapter(this);
 
     @Override
@@ -45,32 +46,44 @@ public  class ListOfNotes extends Fragment implements NotesAdapterCallback{
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        notesAdapter.setItems(notes);
+
     }
 
     private void initView(View view) {
-        RecyclerView recyclerView = view.findViewById(R.id.rv_notes);
+        recyclerView = view.findViewById(R.id.rv_notes);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), RecyclerView.VERTICAL));
         recyclerView.addItemDecoration(new NotesSpaceDecorator(getResources().getDimensionPixelSize(R.dimen.default_margin)));
         recyclerView.setAdapter(notesAdapter);
+        notesAdapter.setItems(notes);
     }
 
     private void initArrayList(){
-        notes.add(new SimpleNote("Заметка №1", "desc","00.00.1900"));
-        notes.add(new SimpleNote("Заметка №2", "desc","00.00.1900"));
-        notes.add(new SimpleNote("Заметка №3", "desc","00.00.1900"));
-        notes.add(new SimpleNote("Заметка №4", "desc","00.00.1900"));
-        notes.add(new SimpleNote("Заметка №5", "desc","00.00.1900"));
-        notes.add(new SimpleNote("Заметка №6", "desc","00.00.1900"));
-        notes.add(new SimpleNote("Заметка №7", "desc","00.00.1900"));
+        for (int i = 0; i < 100; i++) {
+            String title = String.format("title %s", i);
+            String description = String.format("description %s", i);
+            notes.add(new SimpleNote(String.valueOf(i), title, description));
+        };
+
     }
 
+
+
     @Override
-    public void onItemClicked(SimpleNote simpleNote) {
-        CurrentNoteOne note_one = new CurrentNoteOne();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.content_container,note_one);
-        ft.commit();
+    public void onItemClicked(int position) {
+        SimpleNote model = notes.get(position);
+        replaceFragment(model);
     }
+
+
+    private void replaceFragment(@NonNull SimpleNote model){
+        Fragment fragment = CurrentNoteFragment.newInstance(model);
+        requireActivity().getSupportFragmentManager()
+            .beginTransaction()
+            .replace(R.id.content_container, fragment)
+            .commit();
+
+    }
+
+
 }

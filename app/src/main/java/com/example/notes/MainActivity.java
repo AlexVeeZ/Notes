@@ -19,19 +19,13 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     /*Объявление полей*/
-    private TextView nameOfNoteOne,nameOfNoteTwo,nameOfNoteThree;
-    private EditText currentNoteOne,currentNoteTwo,currentNoteThree;
+
     private ImageView save;
     private ImageView share;
     private ImageView menu;
     private LinearLayout home;
     private DrawerLayout drawerLayout;
-    /*поля , хранящие (по моей задумке) в себе содержимое заметок*/
-    private StringBuilder buffer_note_one;
-    private StringBuilder buffer_note_two;
-    private StringBuilder buffer_note_three;
 
-    private final String ARG_INDEX = "arg_index";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +47,7 @@ public class MainActivity extends AppCompatActivity {
     /*Инициализация полей*/
     private void initView(){
         drawerLayout = findViewById(R.id.drawer_layout);
-        /*nameOfNoteOne = findViewById(R.id.nameOfFirstNote);
-        nameOfNoteTwo = findViewById(R.id.nameOfSecondNote);
-        nameOfNoteThree = findViewById(R.id.nameOfThirdNote);*/
-        currentNoteOne = findViewById(R.id.current_note_one);
-        currentNoteTwo = findViewById(R.id.current_note_two);
-        currentNoteThree = findViewById(R.id.current_note_three);
+
         save = findViewById(R.id.save);
         share = findViewById(R.id.share);
         menu = findViewById(R.id.menu);
@@ -102,20 +91,11 @@ public class MainActivity extends AppCompatActivity {
 
         });*/
         save.setOnClickListener(v->{
-            try{
-                buffer_note_one = new StringBuilder();
-                buffer_note_two = new StringBuilder();
-                buffer_note_three = new StringBuilder();
-                buffer_note_one.replace(0,buffer_note_one.length(),String.valueOf(currentNoteOne.getText()));
-                buffer_note_two.replace(0,buffer_note_two.length(),String.valueOf(currentNoteTwo.getText()));
-                buffer_note_three.replace(0,buffer_note_three.length(),String.valueOf(currentNoteThree.getText()));
-            }catch (NullPointerException e){
-                e.printStackTrace();
-            }
+
         });
         share.setOnClickListener(v->{
             Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.putExtra(Intent.EXTRA_TEXT, ARG_INDEX);
+            intent.putExtra(Intent.EXTRA_TEXT, "some text");
             intent.setType("text/plain");
             startActivity(Intent.createChooser(intent,null));
             startActivity(intent);
@@ -136,24 +116,5 @@ public class MainActivity extends AppCompatActivity {
        drawerLayout.closeDrawer(GravityCompat.START);
     }
 
-
-    /*мои попытки испольцоывать поля StringBuilder в качестве ключа*/
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle instanceState){
-        super.onSaveInstanceState(instanceState);
-        instanceState.putString(ARG_INDEX, String.valueOf(currentNoteOne.getText()));
-        instanceState.putString(String.valueOf(buffer_note_two), String.valueOf(currentNoteTwo.getText()));
-        instanceState.putString(String.valueOf(buffer_note_three), String.valueOf(currentNoteThree.getText()));
-
-    }
-
-    @Override
-    protected void onRestoreInstanceState(@NonNull Bundle instanceState){
-        super.onRestoreInstanceState(instanceState);
-        currentNoteOne.setText(instanceState.getString(ARG_INDEX));
-        currentNoteTwo.setText(instanceState.getString(String.valueOf(buffer_note_two)));
-        currentNoteThree.setText(instanceState.getString(String.valueOf(buffer_note_three)));
-
-    }
 
 }
