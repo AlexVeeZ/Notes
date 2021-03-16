@@ -3,6 +3,8 @@ package com.example.notes;
 import java.io.Serializable;
 
 public class SimpleNote  implements Serializable {
+
+
     private final String title;
     private final String desc;
     private final String date;
@@ -25,4 +27,5 @@ public class SimpleNote  implements Serializable {
     public String getDate() {
         return date;
     }
+
 }

@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,7 @@ public  class ListOfNotes extends Fragment implements NotesAdapterCallback{
     private final List<SimpleNote> notes = new ArrayList<>();
     private RecyclerView recyclerView;
     private final NotesAdapter notesAdapter = new NotesAdapter(this);
+    private final NoteListAdapter noteListAdapter = new NoteListAdapter(new NoteItemCallback(), this);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,23 +43,21 @@ public  class ListOfNotes extends Fragment implements NotesAdapterCallback{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initView(view);
+        recyclerView = view.findViewById(R.id.rv_notes);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-    }
-
-    private void initView(View view) {
-        recyclerView = view.findViewById(R.id.rv_notes);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), RecyclerView.VERTICAL));
         recyclerView.addItemDecoration(new NotesSpaceDecorator(getResources().getDimensionPixelSize(R.dimen.default_margin)));
-        recyclerView.setAdapter(notesAdapter);
-        notesAdapter.setItems(notes);
+        //recyclerView.setAdapter(notesAdapter);
+        recyclerView.setAdapter(noteListAdapter);
+        noteListAdapter.submitList(notes);
+
     }
+
 
     private void initArrayList(){
         for (int i = 0; i < 100; i++) {
@@ -73,6 +74,16 @@ public  class ListOfNotes extends Fragment implements NotesAdapterCallback{
     public void onItemClicked(int position) {
         SimpleNote model = notes.get(position);
         replaceFragment(model);
+    }
+
+    @Override
+    public void onLongItemClicked(int position) {
+        final List<SimpleNote> item = new ArrayList<>();
+        notes.remove(position);
+        item.addAll(notes);
+        noteListAdapter.submitList(item);
+
+        Toast.makeText(requireContext(), "УДАЛИТЬ", Toast.LENGTH_SHORT).show();
     }
 
 

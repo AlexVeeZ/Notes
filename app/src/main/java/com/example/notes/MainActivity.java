@@ -56,40 +56,6 @@ public class MainActivity extends AppCompatActivity {
     }
     /*Метод отображения действий*/
     private void addOnClickListener(){
-        /*nameOfNoteOne.setOnClickListener(v -> {
-            CurrentNoteOne note_one = new CurrentNoteOne();
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.content_container,note_one);
-            ft.commit();
-            try {
-                currentNoteOne.setText(String.valueOf(buffer_note_one.toString()));
-            }catch (NullPointerException e){
-                e.printStackTrace();
-            }
-        });
-        nameOfNoteTwo.setOnClickListener(v->{
-            CurrentNoteTwo note_two = new CurrentNoteTwo();
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.content_container,note_two);
-            ft.commit();
-            try {
-                currentNoteTwo.setText(String.valueOf(buffer_note_two.toString()));
-            }catch (NullPointerException e){
-                e.printStackTrace();
-            }
-        });
-        nameOfNoteThree.setOnClickListener(v->{
-            CurrentNoteThree note_three = new CurrentNoteThree();
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.content_container,note_three);
-            ft.commit();
-            try {
-                currentNoteThree.setText(String.valueOf(buffer_note_three.toString()));
-            }catch (NullPointerException e){
-                e.printStackTrace();
-            }
-
-        });*/
         save.setOnClickListener(v->{
 
         });
@@ -106,6 +72,10 @@ public class MainActivity extends AppCompatActivity {
         home.setOnClickListener(v->{
             closeDrawer(drawerLayout);
         });
+    }
+
+    private void addOnLongClickListener(){
+        
     }
 
     private void openDrawer(DrawerLayout drawerLayout) {
