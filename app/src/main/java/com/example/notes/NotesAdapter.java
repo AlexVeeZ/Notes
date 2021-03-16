@@ -15,7 +15,7 @@ import java.util.List;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHolder>{
 
-    private static final String TAG = "NotesAdapter";
+    private final static String TAG = "NotesAdapter";
 
     private final List<SimpleNote> notes = new ArrayList<>();
     private final NotesAdapterCallback callback;
@@ -47,7 +47,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         return notes.size();
     }
 
-    class NotesViewHolder extends RecyclerView.ViewHolder{
+    static class NotesViewHolder extends RecyclerView.ViewHolder{
 
         private final MaterialTextView textView;
         private final NotesAdapterCallback callback;
@@ -66,5 +66,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
                 callback.onItemClicked(getAdapterPosition());
             });
         }
+
     }
 }
